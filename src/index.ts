@@ -1,4 +1,5 @@
-import "./components/character-card.ts";
+import HomePage from "./pages/Home";
+import CharacterPage from "./pages/Character";
 
-const characterCard: HTMLElement = document.createElement("character-card");
-document.body.appendChild(characterCard)
+document.body.appendChild(HomePage());
+document.body.appendChild(CharacterPage());

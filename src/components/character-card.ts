@@ -3,6 +3,7 @@ class CharacterCard extends HTMLElement {
   protected characterName?: string;
   protected characterRace?: string;
   protected shadow: ShadowRoot;
+
   public constructor() {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
@@ -12,10 +13,13 @@ class CharacterCard extends HTMLElement {
     const template: HTMLTemplateElement = document.createElement("template");
     template.innerHTML = `
       <article class="character-card">
-        <a href="#/1">
+        <a href="#/1/">
           <img src="image" alt="name">
+          <div>
+            <span>Character Name</span>
+            <span>Race</span>
+          </div>
         </a>
-        <h2>Character Name</h2>
       </article>
     `;
     return template;
