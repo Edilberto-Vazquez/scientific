@@ -1,5 +1,4 @@
-import HomePage from "./pages/Home";
-import CharacterPage from "./pages/Character";
+import router from "./routes";
 
-document.body.appendChild(HomePage());
-document.body.appendChild(CharacterPage());
+window.addEventListener("load", router);
+window.addEventListener("hashchange", router);

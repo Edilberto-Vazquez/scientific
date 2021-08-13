@@ -1,4 +1,4 @@
-class HeaderMain extends HTMLElement {
+class Error404 extends HTMLElement {
   protected shadow: ShadowRoot;
 
   public constructor() {
@@ -9,18 +9,9 @@ class HeaderMain extends HTMLElement {
   protected getTemplate(): HTMLTemplateElement {
     const template: HTMLTemplateElement = document.createElement("template");
     template.innerHTML = `
-        <div class="header-logo">
-          <h1>
-            <a href="/">
-              100tifi.co
-            </a>
-          </h1>
-        </div>
-        <div class="header-nav">
-          <a href="#/about/">
-            About
-          </a>
-        </div>
+      <div class="Error404">
+        <h2>Error 404</h2>
+      </div>
     `;
     return template;
   }
@@ -34,4 +25,4 @@ class HeaderMain extends HTMLElement {
   }
 }
 
-customElements.define("header-main", HeaderMain);
+customElements.define("error-404", Error404);

@@ -1,10 +1,18 @@
 import "../components/character-card.ts";
+import getData from "../utils/getData";
 
-const HomePage = (): HTMLDivElement => {
+const HomePage = async (): Promise<HTMLDivElement> => {
+  const characters: any = await getData();
   const pageContainer: HTMLDivElement = document.createElement("div");
-  const characterCard: HTMLElement = document.createElement("character-card");
   pageContainer.classList.add("home-page");
-  pageContainer.appendChild(characterCard);
+  characters.results.map((character: any) => {
+    const characterCard: HTMLElement = document.createElement("character-card");
+    characterCard.setAttribute("image", character.image);
+    characterCard.setAttribute("name", character.name);
+    characterCard.setAttribute("species", character.species);
+    pageContainer.appendChild(characterCard);
+  });
+
   return pageContainer;
 };
 
