@@ -1,19 +1,27 @@
 // Class to create the character-card component
 class CharacterCard extends HTMLElement {
-  protected _image: string;
-  protected _name: string;
-  protected _species: string;
+  protected _characterid: any;
+  protected _image: any;
+  protected _name: any;
+  protected _species: any;
   protected _observer: MutationObserver;
 
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this._image = "";
-    this._name = "";
-    this._species = "";
     this._observer = new MutationObserver((mutations) =>
       this.onDomChanged(mutations)
     );
+  }
+
+  // Gets the characterid attribute
+  public get characterid(): number {
+    return this._characterid;
+  }
+
+  // Sets the characterid attibute
+  public set characterid(val: number) {
+    this._characterid = val;
   }
 
   // Gets the image attribute
@@ -54,7 +62,10 @@ class CharacterCard extends HTMLElement {
           box-sizing: border-box;
           margin: 0;
           padding: 0;
-          font-size: 62.5%;
+        }
+        :host {
+          width: 300px;
+          display: inline-grid;
         }
         .character-card {
           width: 300px;
@@ -86,7 +97,7 @@ class CharacterCard extends HTMLElement {
           align-items: center;
         }
         .character-card a div span {
-          font-size: 1.4rem;
+          font-size: 24px;
         }
       </style>
     `;
@@ -97,7 +108,7 @@ class CharacterCard extends HTMLElement {
     const template: HTMLTemplateElement = document.createElement("template");
     template.innerHTML = `
       <article class="character-card">
-        <a href="#/1/">
+        <a href="#/${this.characterid || undefined}/">
           <img src=${this.image || undefined} alt="">
           <div>
             <span>${this.name || undefined}</span>
@@ -139,7 +150,7 @@ class CharacterCard extends HTMLElement {
   // Gets the attributes we want to observe on the host
 
   static get observedAttributes(): string[] {
-    return ["image", "name", "species"];
+    return ["characterid", "image", "name", "species"];
   }
 
   // Called when an attribute on the host has changed.
@@ -149,6 +160,9 @@ class CharacterCard extends HTMLElement {
     oldValue: any,
     newValue: any
   ): void {
+    if (name === "characterid") {
+      this.characterid = newValue;
+    }
     if (name === "image") {
       this.image = newValue;
     }

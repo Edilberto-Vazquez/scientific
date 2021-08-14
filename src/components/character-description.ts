@@ -1,49 +1,105 @@
 class CharacterDescription extends HTMLElement {
-  protected characterEpisodes?: string;
-  protected characterStatus?: string;
-  protected characterSpecies?: string;
-  protected characterGender?: string;
-  protected characterOrigin?: string;
-  protected characterLastLocation?: string;
-  protected shadow: ShadowRoot;
+  protected _episodes: any;
+  protected _status: any;
+  protected _species: any;
+  protected _gender: any;
+  protected _origin: any;
+  protected _location: any;
+  protected _observer: MutationObserver;
 
   public constructor() {
     super();
-    this.shadow = this.attachShadow({ mode: "open" });
+    this.attachShadow({ mode: "open" });
+    this._observer = new MutationObserver((mutations) => {
+      this.onDomChanged(mutations);
+    });
+  }
+
+  public get episodes(): any {
+    return this._episodes;
+  }
+
+  public set episodes(value: any) {
+    this._episodes = value;
+  }
+
+  public get status(): any {
+    return this._status;
+  }
+
+  public set status(value: any) {
+    this._status = value;
+  }
+
+  public get species(): any {
+    return this._species;
+  }
+
+  public set species(value: any) {
+    this._species = value;
+  }
+
+  public get gender(): any {
+    return this._gender;
+  }
+
+  public set gender(value: any) {
+    this._gender = value;
+  }
+
+  public get origin(): any {
+    return this._origin;
+  }
+
+  public set origin(value: any) {
+    this._origin = value;
+  }
+
+  public get location(): any {
+    return this._location;
+  }
+
+  public set location(value: any) {
+    this._location = value;
   }
 
   protected getTemplate(): HTMLTemplateElement {
     const template: HTMLTemplateElement = document.createElement("template");
     template.innerHTML = `
       <article class="Characters-card">
-        <h3>Episodes:${this.characterEpisodes}</h3>
-        <h3>Status:${this.characterStatus}</h3>
-        <h3>Species:${this.characterSpecies}</h3>
-        <h3>Gender:${this.characterGender}</h3>
-        <h3>Origin:${this.characterOrigin}</h3>
-        <h3>Last Location:${this.characterLastLocation}</h3>
+        <h3>Episodes:${this.episodes}</h3>
+        <h3>Status:${this.status}</h3>
+        <h3>Species:${this.species}</h3>
+        <h3>Gender:${this.gender}</h3>
+        <h3>Origin:${this.origin}</h3>
+        <h3>Last Location:${this.location}</h3>
       </article>
     `;
     return template;
   }
 
   protected render(): void {
-    this.shadow.appendChild(this.getTemplate().content.cloneNode(true));
+    this.shadowRoot?.appendChild(this.getTemplate().content.cloneNode(true));
+  }
+
+  protected onDomChanged(muataion: MutationRecord[]): void {
+    if (!this.shadowRoot) {
+      return;
+    }
   }
 
   public connectedCallback(): void {
+    this._observer.observe(this, {
+      attributes: true,
+      characterData: true,
+      subtree: true,
+      childList: true,
+    });
     this.render();
   }
 
   public static get observedAttributes(): string[] {
-    return [
-      "characterEpisodes",
-      "characterStatus",
-      "characterSpecies",
-      "characterGender",
-      "characterOrigin",
-      "characterLastLocation",
-    ];
+    return ["episodes", "status", "species", "gender", "origin", "location"];
   }
 
   public attributeChangedCallback(
@@ -51,23 +107,23 @@ class CharacterDescription extends HTMLElement {
     oldValue: string,
     newValue: string
   ): void {
-    if (name === newValue) {
-      this.characterEpisodes = newValue;
+    if (name === "episodes") {
+      this.episodes = newValue;
     }
-    if (name === newValue) {
-      this.characterStatus = newValue;
+    if (name === "status") {
+      this.status = newValue;
     }
-    if (name === newValue) {
-      this.characterSpecies = newValue;
+    if (name === "species") {
+      this.species = newValue;
     }
-    if (name === newValue) {
-      this.characterGender = newValue;
+    if (name === "gender") {
+      this.gender = newValue;
     }
-    if (name === newValue) {
-      this.characterOrigin = newValue;
+    if (name === "origin") {
+      this.origin = newValue;
     }
-    if (name === newValue) {
-      this.characterLastLocation = newValue;
+    if (name === "location") {
+      this.location = newValue;
     }
   }
 }

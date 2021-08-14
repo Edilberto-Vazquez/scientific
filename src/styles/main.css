@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+}
+
+.home-page {
+  padding: 24px 0;
+  display: grid;
+  grid-auto-rows: 380px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  justify-items: center;
+  row-gap: 24px;
+  column-gap: 14px;
+}
+
+@media (min-width: 780px) {
+  .home-page {
+    padding: 24px 50px;
+  }
+}
