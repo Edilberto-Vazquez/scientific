@@ -130,6 +130,7 @@
 
 // customElements.define("character-card", CharacterCard);
 
+// New way adding a MutationObserver
 class ExampleComponent extends HTMLElement {
   private _observer: MutationObserver;
   private _image: string;

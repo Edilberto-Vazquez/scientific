@@ -12,22 +12,26 @@ const routes: any = {
 };
 
 const router = async () => {
-  // create containers
-  const header: HTMLElement | null = document.getElementById("header");
-  const content: HTMLElement | null =
-    null || document.getElementById("content");
-  const headerMain = document.createElement("header-main");
-
+  // get the path
   const hash: string = getHash();
   const route: string = await resolveRoutes(hash);
   const render = routes[route] ? routes[route] : Error404Page;
 
-  // render containers and header
-  header && (header.innerHTML = "");
-  await header?.appendChild(headerMain);
-  content && (content.innerHTML = "");
-  // await content?.appendChild(render());
-  render().then((result: any) => content?.appendChild(result));
+  // get the main container
+  const main: HTMLElement | null = document.getElementById("main");
+
+  // create the header
+  const header = document.createElement("header-main");
+
+  // remove nodes from the main container
+  // main && (main.innerHTML = "")
+  while (main?.firstChild) {
+    main.removeChild(main.firstChild);
+  }
+
+  // add nodes to the main container
+  await main?.appendChild(header);
+  render().then((result: any) => main?.appendChild(result));
 };
 
 export default router;

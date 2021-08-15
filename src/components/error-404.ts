@@ -1,9 +1,11 @@
 class Error404 extends HTMLElement {
-  protected shadow: ShadowRoot;
-
+  protected _observer: MutationObserver;
   public constructor() {
     super();
-    this.shadow = this.attachShadow({ mode: "open" });
+    this.attachShadow({ mode: "open" });
+    this._observer = new MutationObserver((mutations) => {
+      this.onDomChanged(mutations);
+    });
   }
 
   protected getTemplate(): HTMLTemplateElement {
@@ -17,11 +19,21 @@ class Error404 extends HTMLElement {
   }
 
   protected render(): void {
-    this.shadow.appendChild(this.getTemplate().content.cloneNode(true));
+    this.shadowRoot?.appendChild(this.getTemplate().content.cloneNode(true));
+  }
+
+  protected onDomChanged(muataion: MutationRecord[]): void {
+    if (!this.shadowRoot) {
+      return;
+    }
   }
 
   public connectedCallback(): void {
     this.render();
+  }
+
+  public disconnectedCallback(): void {
+    this._observer.disconnect();
   }
 }
 

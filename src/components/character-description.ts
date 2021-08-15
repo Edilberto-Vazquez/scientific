@@ -15,65 +15,99 @@ class CharacterDescription extends HTMLElement {
     });
   }
 
-  public get episodes(): any {
+  public get episodes(): number {
     return this._episodes;
   }
 
-  public set episodes(value: any) {
+  public set episodes(value: number) {
     this._episodes = value;
   }
 
-  public get status(): any {
+  public get status(): string {
     return this._status;
   }
 
-  public set status(value: any) {
+  public set status(value: string) {
     this._status = value;
   }
 
-  public get species(): any {
+  public get species(): string {
     return this._species;
   }
 
-  public set species(value: any) {
+  public set species(value: string) {
     this._species = value;
   }
 
-  public get gender(): any {
+  public get gender(): string {
     return this._gender;
   }
 
-  public set gender(value: any) {
+  public set gender(value: string) {
     this._gender = value;
   }
 
-  public get origin(): any {
+  public get origin(): string {
     return this._origin;
   }
 
-  public set origin(value: any) {
+  public set origin(value: string) {
     this._origin = value;
   }
 
-  public get location(): any {
+  public get location(): string {
     return this._location;
   }
 
-  public set location(value: any) {
+  public set location(value: string) {
     this._location = value;
+  }
+
+  protected getStyles(): string {
+    return `
+      <style>
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+        :host {
+          max-width: 500px;
+        }
+        .character-description{
+          display: grid;
+          row-gap: 24px;
+          animation: fade 2s linear;
+        }
+        .character-description span {
+          font-size: 2.4rem;
+          font-weight: 400;
+          text-align: left;
+        }
+        @keyframes fade {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+      </style>
+    `;
   }
 
   protected getTemplate(): HTMLTemplateElement {
     const template: HTMLTemplateElement = document.createElement("template");
     template.innerHTML = `
-      <article class="Characters-card">
-        <h3>Episodes:${this.episodes}</h3>
-        <h3>Status:${this.status}</h3>
-        <h3>Species:${this.species}</h3>
-        <h3>Gender:${this.gender}</h3>
-        <h3>Origin:${this.origin}</h3>
-        <h3>Last Location:${this.location}</h3>
+      <article class="character-description">
+        <span>Episodes:${this.episodes}</span>
+        <span>Status:${this.status}</span>
+        <span>Species:${this.species}</span>
+        <span>Gender:${this.gender}</span>
+        <span>Origin:${this.origin}</span>
+        <span>Last Location:${this.location}</span>
       </article>
+      ${this.getStyles()}
     `;
     return template;
   }
@@ -104,8 +138,8 @@ class CharacterDescription extends HTMLElement {
 
   public attributeChangedCallback(
     name: string,
-    oldValue: string,
-    newValue: string
+    oldValue: any,
+    newValue: any
   ): void {
     if (name === "episodes") {
       this.episodes = newValue;
@@ -125,6 +159,16 @@ class CharacterDescription extends HTMLElement {
     if (name === "location") {
       this.location = newValue;
     }
+  }
+
+  public disconnectedCallback(): void {
+    this._observer.disconnect();
+    this.episodes = 0;
+    this.status = "";
+    this.species = "";
+    this.gender = "";
+    this.origin = "";
+    this.location = "";
   }
 }
 

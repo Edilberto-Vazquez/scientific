@@ -1,9 +1,8 @@
 import "../components/error-404";
 
-const Error404Page = () => {
+const Error404Page = async () => {
   const pageContent = document.createElement("div");
-  const error404 = document.createElement("error-404");
-  pageContent.appendChild(error404);
+  pageContent.innerHTML = "<error-404></error-404>";
   return pageContent;
 };
 

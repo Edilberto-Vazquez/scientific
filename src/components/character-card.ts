@@ -73,6 +73,7 @@ class CharacterCard extends HTMLElement {
           background: #fcfcfc;
           border-radius: 10px;
           box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+          animation: fade 2s linear;
         }
         .character-card a {
           width: 100%
@@ -97,7 +98,15 @@ class CharacterCard extends HTMLElement {
           align-items: center;
         }
         .character-card a div span {
-          font-size: 24px;
+          font-size: 2.4rem;
+        }
+        @keyframes fade {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
         }
       </style>
     `;
@@ -122,13 +131,11 @@ class CharacterCard extends HTMLElement {
   }
 
   // Renders the component and append the template
-
   protected render(): void {
     this.shadowRoot?.appendChild(this.getTemplate().content.cloneNode(true));
   }
 
   // Called when the element's light DOM has changed.
-
   protected onDomChanged(mutations: MutationRecord[]): void {
     if (!this.shadowRoot) {
       return;
@@ -136,7 +143,6 @@ class CharacterCard extends HTMLElement {
   }
 
   // Called when the element is connected to the DOM tree.
-
   public connectedCallback(): void {
     this._observer.observe(this, {
       attributes: true,
@@ -148,13 +154,11 @@ class CharacterCard extends HTMLElement {
   }
 
   // Gets the attributes we want to observe on the host
-
   static get observedAttributes(): string[] {
     return ["characterid", "image", "name", "species"];
   }
 
   // Called when an attribute on the host has changed.
-
   public attributeChangedCallback(
     name: string,
     oldValue: any,
@@ -175,9 +179,12 @@ class CharacterCard extends HTMLElement {
   }
 
   // Called when the element is disconnected from the DOM tree.
-
   public disconnectedCallback(): void {
     this._observer.disconnect();
+    this.characterid = 0;
+    this.image = "";
+    this.name = "";
+    this.species = "";
   }
 }
 

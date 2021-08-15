@@ -10,29 +10,16 @@ const CharacterPage = async (): Promise<HTMLDivElement> => {
 
   // create the elements
   const pageContainer: HTMLDivElement = document.createElement("div");
-  const characterCard: HTMLElement = document.createElement("character-card");
-  const characterDescription: HTMLElement = document.createElement(
-    "character-description"
-  );
 
   // add a class in the div container
   pageContainer.classList.add("character-page");
 
-  // apend the component character-card and sets atributes
-  pageContainer.appendChild(characterCard);
-  characterCard.setAttribute("characterid", character.id);
-  characterCard.setAttribute("image", character.image);
-  characterCard.setAttribute("name", character.name);
-  characterCard.setAttribute("species", character.species);
-
-  // append the component character-description and sets atributes
-  pageContainer.appendChild(characterDescription);
-  characterDescription.setAttribute("episodes", character.episode.length);
-  characterDescription.setAttribute("status", character.status);
-  characterDescription.setAttribute("species", character.species);
-  characterDescription.setAttribute("gender", character.gender);
-  characterDescription.setAttribute("origin", character.origin.name);
-  characterDescription.setAttribute("location", character.location.name);
+  pageContainer.innerHTML = `
+    <character-card characterid=${character.id} image=${character.image} name=${character.name} species=${character.species}>
+    </character-card>
+    <character-description episodes=${character.episode.length} status=${character.status} species=${character.species} gender=${character.gender} origin=${character.origin.name} loaction=${character.location.name}>
+    </character-description>
+  `;
 
   return pageContainer;
 };
